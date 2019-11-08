@@ -1,0 +1,1 @@
+insert into USERINFO(id, name , salary,gender) values (? , ? , ? , ?) ;

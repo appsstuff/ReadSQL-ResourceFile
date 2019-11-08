@@ -1,0 +1,1 @@
+create table department ( deptId number, deptName varchar(200), location integer);

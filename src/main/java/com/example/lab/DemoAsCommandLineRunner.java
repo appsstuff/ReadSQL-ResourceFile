@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestService implements CommandLineRunner {
+public class DemoAsCommandLineRunner implements CommandLineRunner {
 
 	@Autowired
 	private DemoService service;

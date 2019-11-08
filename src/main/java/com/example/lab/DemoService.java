@@ -18,15 +18,16 @@ public class DemoService {
 	@Autowired
 	private JdbcTemplate jdbc;
 	
+	// use queryBuilder class
 	@Value("#{queryBuilder.getStatement('insertPerson')}")
 	private String sql1;
 	
-
 	@Value("#{queryBuilder.getStatement('CreateTableDept')}")
 	private String sql2;
 	
+	// use Resource 
 	@Value("classpath:query/insertPerson2.sql")
-	private Resource sql3;
+	private Resource resource;
 	
 	public void addNewPerson() {
 		Object[] o = new Object[] {10,"Muhammad",1200,"M	"};
@@ -35,10 +36,10 @@ public class DemoService {
 	
 	public void addNewPerson2() {
 		Object[] o = new Object[] {20,"Heba",5500,"F"};
-		String s = asString(sql3);
-		jdbc.update(s,o);
+		String query = extractQueryFromResource(resource);
+		jdbc.update(query,o);
 	}
-	private String asString(Resource resource) {
+	private String extractQueryFromResource(Resource resource) {
 		try {
 			InputStream is = resource.getInputStream();
 			Reader read = new InputStreamReader(is);

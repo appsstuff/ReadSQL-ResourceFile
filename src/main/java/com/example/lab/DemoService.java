@@ -15,9 +15,16 @@ import org.springframework.util.FileCopyUtils;
 @Service
 public class DemoService {
 
-	@Autowired
-	private JdbcTemplate jdbc;
 	
+	private JdbcTemplate jdbc;
+	private DataSourceConfig config;
+	
+	@Autowired
+	public DemoService(JdbcTemplate jdbc,DataSourceConfig config) {
+		this.jdbc = jdbc;
+		this.config = config;
+	}
+
 	// use queryBuilder class
 	@Value("#{queryBuilder.getStatement('insertPerson')}")
 	private String sql1;
@@ -29,6 +36,9 @@ public class DemoService {
 	@Value("classpath:query/insertPerson2.sql")
 	private Resource resource;
 	
+	@Value("classpath:query/CreateTableLocation.sql")
+	private Resource resouce2;
+	
 	public void addNewPerson() {
 		Object[] o = new Object[] {10,"Muhammad",1200,"M	"};
 		jdbc.update(sql1,o);
@@ -38,6 +48,15 @@ public class DemoService {
 		Object[] o = new Object[] {20,"Heba",5500,"F"};
 		String query = extractQueryFromResource(resource);
 		jdbc.update(query,o);
+	}
+	
+	public void createLocationTable() {
+		config.execute(resouce2);
+	}
+	
+	//User data populatoer
+	public void createDeptTable() {
+		jdbc.execute(sql2);
 	}
 	private String extractQueryFromResource(Resource resource) {
 		try {
@@ -50,7 +69,7 @@ public class DemoService {
 		return null;
 	}
 
-	public void createDeptTable() {
-		jdbc.execute(sql2);
-	}
+	
+	
+	
 }

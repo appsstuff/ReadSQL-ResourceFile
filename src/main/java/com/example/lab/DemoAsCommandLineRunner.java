@@ -15,6 +15,7 @@ public class DemoAsCommandLineRunner implements CommandLineRunner {
 	service.addNewPerson();	
 	service.createDeptTable();
 	service.addNewPerson2();
+	service.createLocationTable();
 	}
 
 }
